@@ -1,6 +1,9 @@
 const axios = require('axios');
 const crypto = require('crypto');
 const https = require('https');
+const puppeteer = require('puppeteer-extra')
+const pluginStealth = require('puppeteer-extra-plugin-stealth')
+const { executablePath } = require('puppeteer')
 
 async function processController(url) {
     console.log("Starting the process to fetch the Doodstream CDN link...");

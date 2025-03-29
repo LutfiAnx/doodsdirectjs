@@ -2,6 +2,8 @@ const axios = require('axios');
 const crypto = require('crypto');
 const https = require('https');
 const puppeteer = require('puppeteer-extra')
+const puppeteerCore = require('puppeteer-core')
+const chromium = require('@sparticuz/chromium')
 
 const pluginStealth = require('puppeteer-extra-plugin-stealth')
 const { executablePath } = require('puppeteer')
@@ -115,12 +117,12 @@ function generateRandomString(length = 10) {
 
 const getHtmlThoughCloudflare = async (url) => {
     //puppeteer.use(pluginStealth())
-    const result = await puppeteer
-      .launch({ 
-        ignoreHTTPSErrors: true,
-        headless: true,
-        executablePath: '/opt/bin/chromium',
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const result = await puppeteerCore
+      .launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless,
       })
       .then(async (browser) => {
         const page = await browser.newPage()

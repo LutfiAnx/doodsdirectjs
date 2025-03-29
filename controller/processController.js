@@ -119,7 +119,7 @@ function generateRandomString(length = 10) {
 
 
 const getHtmlThoughCloudflare = async (url) => {
-    //puppeteer.use(pluginStealth())
+    puppeteer.use(pluginStealth())
 
     try {
         browser = await puppeteer.launch({
@@ -128,6 +128,7 @@ const getHtmlThoughCloudflare = async (url) => {
           executablePath: await chromium.executablePath(),
           headless: chromium.headless,
           ignoreHTTPSErrors: true,
+          targetFilter: (target) => target.type() !== "other",
         });
         let page = await browser.newPage();
         await page.goto(url, { waitUntil: 'domcontentloaded' });

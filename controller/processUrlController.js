@@ -46,7 +46,7 @@ async function processUrlController(url) {
         const secondResponse = await session.get(secondUrl);
         if (secondResponse.status === 200) {
             console.log("Successfully fetched the secondary URL contents.");
-            
+            console.log(secondResponse);
             const part1 = secondResponse.data;
             console.log("ini part 1");
             console.log(part1);

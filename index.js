@@ -4,7 +4,9 @@ const path = require('path')
 const port = 3000
 // const processDoodstreamUrl = require('./controller/fetchController');
 // const processController = require('./controller/processController');
-const { processController } = require('./controller/processController');
+const { processController } = require('./controller/processController')
+const { processUrlController } = require('./controller/processUrlController')
+
 
 const bodyParser = require('body-parser')
 
@@ -23,6 +25,11 @@ app.get('/main', (req,res) => {
     res.render('main.html')
 })
 
+app.get('/mainur', (req,res) => {
+  res.render('mainur.html')
+})
+
+
 app.post('/fetch-link', async (req, res) => {
     const url = req.body.url;
 
@@ -33,6 +40,18 @@ app.post('/fetch-link', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+app.post('/fetch-link-url', async (req, res) => {
+  const url = req.body.url;
+
+  try {
+      const result = await processUrlController(url);
+      res.json({ result });
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

@@ -49,7 +49,6 @@ async function processController(url) {
         const response = await session.get(doodstreamUrl);
         if (response.status === 200) {
             console.log("Successfully fetched the Doodstream page.");
-            console.log(response.data);
             const match = response.data.match(/\$.get\('([^']+)',\s*function\(data\)/);
             
 
@@ -60,6 +59,7 @@ async function processController(url) {
                 const match = htmlFromCloudflare.match(/\$.get\('([^']+)',\s*function\(data\)/)
                 console.log("ini match "+match)
               } else {
+                console.log("ini match "+match)
                 console.log('No CAPTCHA, processing data...');
                 if (match) {
                     const urlInsideGet = match[1];

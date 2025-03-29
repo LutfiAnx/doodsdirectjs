@@ -15,12 +15,6 @@ async function processUrlController(url) {
             httpsAgent: new https.Agent({  
                 rejectUnauthorized: false  
             }),
-            // headers: {
-            //     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-            //     "Accept-Encoding": "gzip, deflate, br, zstd",
-            //     "Referer": "https://dood.li/",
-            //     "User-Agent": "Mozilla/5.0 (Linux; Android 10; Pixel 4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Mobile Safari/537.36"
-            // }
             headers: {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -43,7 +37,9 @@ async function processUrlController(url) {
         const secondUrl = `https://do7go.com${urlInsideGet}`;
         console.log(`Constructed URL for second request: ${secondUrl}`);
         
-        const secondResponse = await session.get(secondUrl);
+        // const secondResponse = await session.get(secondUrl);
+        const secondResponse = await getHtmlContent(secondUrl);
+        console.log("ini sec Resp : "+secondResponse);
         if (secondResponse.status === 200) {
             console.log("Successfully fetched the secondary URL contents.");
             console.log(secondResponse);
@@ -81,7 +77,7 @@ function generateRandomString(length = 10) {
 }
 
 
-const getHtmlThoughCloudflare = async (url) => {
+const getHtmlContent = async (url) => {
     // puppeteer.use(pluginStealth())
 
     try {
@@ -96,7 +92,6 @@ const getHtmlThoughCloudflare = async (url) => {
         let page = await browser.newPage();
         await page.goto(url, { waitUntil: 'domcontentloaded' });
         const html = await page.content()
-        console.log("Fetched HTML after CAPTCHA bypass:", html);
         await browser.close()
         console.log(html)
         return html

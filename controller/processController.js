@@ -35,6 +35,7 @@ async function processController(url) {
         const response = await session.get(doodstreamUrl);
         if (response.status === 200) {
             console.log("Successfully fetched the Doodstream page.");
+            console.log(response.data);
             const match = response.data.match(/\$.get\('([^']+)',\s*function\(data\)/);
             
             if (match) {

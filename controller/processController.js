@@ -117,23 +117,45 @@ function generateRandomString(length = 10) {
 
 const getHtmlThoughCloudflare = async (url) => {
     //puppeteer.use(pluginStealth())
-    const result = await puppeteerCore
-      .launch({
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath(),
-        headless: chromium.headless,
-      })
-      .then(async (browser) => {
-        const page = await browser.newPage()
+
+    try {
+        browser = await puppeteer.launch({
+          args: chromium.args,
+          defaultViewport: chromium.defaultViewport,
+          executablePath: await chromium.executablePath(),
+          headless: chromium.headless,
+          ignoreHTTPSErrors: true,
+        });
+        let page = await browser.newPage();
         await page.goto(url)
         const html = await page.content()
         await browser.close()
         return html
-      })
+      } catch (error) {
+        return callback(error);
+      } finally {
+        if (browser !== null) {
+          await browser.close();
+        }
+      }
+    // return callback(null, result);
+    // const result = await puppeteerCore
+    //   .launch({
+    //     args: chromium.args,
+    //     defaultViewport: chromium.defaultViewport,
+    //     executablePath: await chromium.executablePath(),
+    //     headless: chromium.headless,
+    //   })
+    //   .then(async (browser) => {
+    //     const page = await browser.newPage()
+    //     await page.goto(url)
+    //     const html = await page.content()
+    //     await browser.close()
+    //     return html
+    //   })
   
-    console.log(` HTML: ${result}`)
-    return result // html
+    // console.log(` HTML: ${result}`)
+    // return result // html
   }
 
 module.exports = { processController }

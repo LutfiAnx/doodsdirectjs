@@ -5,8 +5,11 @@ const puppeteer = require('puppeteer-extra')
 const puppeteerCore = require('puppeteer-core')
 const chromium = require('@sparticuz/chromium')
 
+
 const pluginStealth = require('puppeteer-extra-plugin-stealth')
 const { executablePath } = require('puppeteer')
+
+require('puppeteer-extra-plugin-stealth/evasions/chrome.app')
 
 async function processController(url) {
     console.log("Starting the process to fetch the Doodstream CDN link...");

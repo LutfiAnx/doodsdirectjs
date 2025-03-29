@@ -53,7 +53,10 @@ async function processController(url) {
 
             if (response.data.includes('captcha-player')) {
                 console.log('Captcha detected! Taking action...');
-                getHtmlThoughCloudflare(doodstreamUrl);
+                const htmlFromCloudflare = await getHtmlThoughCloudflare(doodstreamUrl);
+
+                const match = htmlFromCloudflare.match(/\$.get\('([^']+)',\s*function\(data\)/)
+                console.log("ini match "+match)
               } else {
                 console.log('No CAPTCHA, processing data...');
                 if (match) {
@@ -127,35 +130,20 @@ const getHtmlThoughCloudflare = async (url) => {
           ignoreHTTPSErrors: true,
         });
         let page = await browser.newPage();
-        await page.goto(url)
+        await page.goto(url, { waitUntil: 'domcontentloaded' });
         const html = await page.content()
+        console.log("Fetched HTML after CAPTCHA bypass:", html);
         await browser.close()
+        console.log(html)
         return html
       } catch (error) {
-        return callback(error);
+        console.error("Error during Puppeteer operation:", error);
+        return null;
       } finally {
         if (browser !== null) {
           await browser.close();
         }
       }
-    // return callback(null, result);
-    // const result = await puppeteerCore
-    //   .launch({
-    //     args: chromium.args,
-    //     defaultViewport: chromium.defaultViewport,
-    //     executablePath: await chromium.executablePath(),
-    //     headless: chromium.headless,
-    //   })
-    //   .then(async (browser) => {
-    //     const page = await browser.newPage()
-    //     await page.goto(url)
-    //     const html = await page.content()
-    //     await browser.close()
-    //     return html
-    //   })
-  
-    // console.log(` HTML: ${result}`)
-    // return result // html
   }
 
 module.exports = { processController }

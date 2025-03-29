@@ -8,15 +8,6 @@ const { processController } = require('./controller/processController');
 
 const bodyParser = require('body-parser')
 
-const { join } = require('path');
-
-/**
- * @type {import('puppeteer').Configuration}
- */
-module.exports = {
-  cacheDirectory: join(__dirname, 'node_modules', '.puppeteer_cache'),
-};
-
 app.use(express.json())
 
 app.set('view engine', 'html');

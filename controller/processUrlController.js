@@ -92,6 +92,8 @@ const getHtmlContent = async (url) => {
         let page = await browser.newPage();
         await page.goto(url, { waitUntil: 'domcontentloaded' });
         const html = await page.content()
+        const title = await page.title()
+        console.log("Page Title:", title)
         await browser.close()
         console.log(html)
         return html

@@ -116,7 +116,12 @@ function generateRandomString(length = 10) {
 const getHtmlThoughCloudflare = async (url) => {
     //puppeteer.use(pluginStealth())
     const result = await puppeteer
-      .launch({ headless: true })
+      .launch({ 
+        ignoreHTTPSErrors: true,
+        headless: true,
+        executablePath: '/opt/bin/chromium',
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      })
       .then(async (browser) => {
         const page = await browser.newPage()
         await page.goto(url)

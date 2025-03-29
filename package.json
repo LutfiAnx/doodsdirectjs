@@ -4,6 +4,7 @@
   "description": "create with love by lutfiAn",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npx puppeteer install --path ./.cache/puppeteer",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

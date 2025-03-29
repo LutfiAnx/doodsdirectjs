@@ -10,8 +10,9 @@ const bodyParser = require('body-parser')
 app.use(express.json())
 
 app.set('view engine', 'html');
-
+app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
+
 
 app.get('/', (req, res) => {
   res.send('Hello World!')

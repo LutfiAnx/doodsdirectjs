@@ -37,8 +37,8 @@ async function processUrlController(url) {
         const secondUrl = `https://do7go.com${urlInsideGet}`;
         console.log(`Constructed URL for second request: ${secondUrl}`);
         
-        // const secondResponse = await session.get(secondUrl);
-        const secondResponse = await getHtmlContent(secondUrl);
+        const secondResponse = await session.get(secondUrl);
+        //const secondResponse = await getHtmlContent(secondUrl);
         console.log("ini sec Resp : "+secondResponse);
         if (secondResponse.status === 200) {
             console.log("Successfully fetched the secondary URL contents.");
@@ -56,7 +56,9 @@ async function processUrlController(url) {
             console.log(`Token: ${token}`);
             console.log(`Expiry timestamp: ${expiry}`);
             console.log(`Doodstream CDN link generated: ${finalUrl}`);
-            return finalUrl;
+
+            let urlAll = secondUrl + " " + finalUrl;
+            return urlAll;
         } else {
             console.error("Error: Unable to fetch the contents of the secondary URL.");
         }

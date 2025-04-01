@@ -50,14 +50,16 @@ async function processPopController(url) {
 
         if(response.status = 200) {
             console.log("Successfully fetched the poops download page.");
-            console.log(response);
+            console.log(response.data);
             resPoops = response.data;
-            const match = resPoops.match(/window\.open\(['"]([^'"]+)['"]\)/);
+            const match = resPoops.match(/player\([^,]+,\s*"[^"]+",\s*"[^"]+",\s*"([^"]+)"/);
+            console.log("ini match "+match);
             if (match) {
-                const urlInsideGet = match[1];
-                console.log(`URL found inside the response: ${urlInsideGet}`);
+                const urlInsideGet = match[1].replace("vstream", "dlv");
+                const resultUrl = `https://poophd.video-src.com${urlInsideGet}`;
+                console.log(`URL found inside the response: ${resultUrl}`);
                 
-                return urlInsideGet
+                return resultUrl
                 
             } else {
                 console.error("Error: Unable to find the required URL inside the initial response.");

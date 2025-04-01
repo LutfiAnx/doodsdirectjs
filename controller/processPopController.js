@@ -50,6 +50,7 @@ async function processPopController(url) {
 
         if(response.status = 200) {
             console.log("Successfully fetched the poops download page.");
+            console.log(response);
             resPoops = response.data;
             const match = resPoops.match(/window\.open\(['"]([^'"]+)['"]\)/);
             if (match) {

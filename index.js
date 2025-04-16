@@ -7,6 +7,8 @@ const port = 3001
 const { processController } = require('./controller/processController')
 const { processUrlController } = require('./controller/processUrlController')
 const { processPopController } = require('./controller/processPopController')
+const { processPopsController } = require('./controller/processPopsController')
+
 
 
 const bodyParser = require('body-parser')
@@ -32,6 +34,10 @@ app.get('/mainur', (req,res) => {
 
 app.get('/mainpop', (req,res) => {
   res.render('mainpop.html')
+})
+
+app.get('/mainpops', (req,res) => {
+  res.render('mainpops.html')
 })
 
 
@@ -68,6 +74,18 @@ app.post('/fetch-link-poop', async (req, res) => {
       res.status(500).json({error: error.message});
   }
 })
+
+app.post('/fetch-link-poops', async (req, res) => {
+  const url = req.body.url;
+
+  try {
+      const result = await processPopsController(url);
+      res.json ({result});
+  } catch (error) {
+      res.status(500).json({error: error.message});
+  }
+})
+
 
 
 app.listen(port, () => {
